@@ -72,6 +72,7 @@ My final model consisted of the following layers:
 | Max pooling2	      	| 2x2 stride,  outputs:6x6x15 					|
 | Convolution3 3x3     	| 3x3 stride, same padding, outputs:4x4x15	 	|
 | RELU3					| outputs:4x4x15								|
+| Max pooling2	      	| 2x2 stride,  outputs:2x2x15 					|
 | FC0					| shape : 540 									|
 | FC1			      	| shape:540x120 								|
 | FC2			      	| shape:120x84									|
