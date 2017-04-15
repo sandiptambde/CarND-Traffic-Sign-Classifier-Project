@@ -70,9 +70,6 @@ My final model consisted of the following layers:
 | Convolution2 3x3     	| 3x3 stride, same padding, outputs:12x12x15 	|
 | RELU2					| outputs:12x12x15								|
 | Max pooling2	      	| 2x2 stride,  outputs:6x6x15 					|
-| Convolution3 3x3     	| 3x3 stride, same padding, outputs:4x4x15	 	|
-| RELU3					| outputs:4x4x15								|
-| Max pooling2	      	| 2x2 stride,  outputs:2x2x15 					|
 | FC0					| shape : 540 									|
 | FC1			      	| shape:540x120 								|
 | FC2			      	| shape:120x84									|
@@ -102,7 +99,6 @@ Problem faced:
 So, I decided to modify LeNet architecture. I done following modifications:
 1. Increased number of output neurons in first conv1 layer to 15 from 6
 2. Decreased conv filter size from 5x5 to 3x3 to retain more info in second conv2 layer
-3. Added 3rd conv3 layer with same properties as conv2 
 4. Kept output neuron size of all conv layer same to 15
 5. Tried with diffent epoch:10,20,30 
 6. Reduce Batch size to 64 from 128 for stability
