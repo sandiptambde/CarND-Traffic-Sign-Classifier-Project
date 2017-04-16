@@ -17,14 +17,9 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[image1]: ./examples/TrainingDataset_Visualization.png 
+[image2]: ./examples/sample.jpg  "CNN_Graph"
+
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -49,12 +44,19 @@ signs data set:
 * The shape of a traffic sign image is :32x32x3
 * The number of unique classes/labels in the data set is :43
 
+Training dataset visualization: 
+
+![alt text][image1]
 
 ### Design and Test a Model Architecture
 
 #### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
 
 I have not done data preprocesing for now other than training dataset shuffling. I mainly work on network architechure to achieve validation accuracy >93%.
+
+Reason for shuffling:
+Generally, in case your data is ordered SGD will have problem.
+Also, in case you run through it multiple times having the same order on each run, it will probabaly lead to problems like local minima.
 
 
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
@@ -75,7 +77,10 @@ My final model consisted of the following layers:
 | FC2			      	| shape:120x84									|
 | FC3			      	| shape:84x43	 								|
 
+Generated network graph using Tensorboard.
 
+<img src="./examples/CNN_Tensorboard.png" alt="CNN_Tensorboard" style="width: 800px;"/>
+ 
 #### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
 To train the model, I used an following hyperparameter:
@@ -97,11 +102,11 @@ Problem faced:
 - Adjusting hyperparameters like learning rate(0.1-0.0001),epoch(10-50) wasn't improving the validation accuracy >0.90%
 
 So, I decided to modify LeNet architecture. I done following modifications:
-1. Increased number of output neurons in first conv1 layer to 15 from 6
-2. Decreased conv filter size from 5x5 to 3x3 to retain more info in second conv2 layer
-4. Kept output neuron size of all conv layer same to 15
-5. Tried with diffent epoch:10,20,30 
-6. Reduce Batch size to 64 from 128 for stability
+* Increased number of output neurons in first conv1 layer to 15 from 6
+* Decreased conv filter size from 5x5 to 3x3 to retain more info in second conv2 layer
+* Kept output neuron size of all conv layer same to 15
+* Tried with diffent epoch:10,20,30 
+* Reduce Batch size to 64 from 128 for stability
 
 ### Test a Model on New Images
 
@@ -110,6 +115,11 @@ So, I decided to modify LeNet architecture. I done following modifications:
 Here are five German traffic signs that I found on the web:
 
 Available under test_images folder
+* 30kmph_1.jpg --> Image background has lot of noise in terms of other objects like:tree,compound gate
+* no_entry_17.jpg --> Image has watermark on the sign board with bluewish background
+* Pedestrians_27.jpg --> Image background has noise in terms of tree object. Also, background color shades are different
+* Roadwork_25.jpg --> Upper left corner of the image is having bright sunlight reflection
+* speed_limit60_3.jpg --> Image is not captured from horizontal level. Also, it has watermark.
 
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
@@ -131,7 +141,7 @@ The model was able to correctly guess 3 of the 5 traffic signs, which gives an a
 
 The code for making predictions on my final model is located in the 145th cell of the Ipython notebook.
 
-For the first image, the model is 100% sure that this is a speed_limit30 (probability of 1.0), and the image does contain a stop sign. The top five soft max probabilities were
+* For the first image, the model is 100% sure that this is a speed_limit30 (probability of 1.0), and the image does contain a stop sign. The top five soft max probabilities were
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -142,7 +152,7 @@ For the first image, the model is 100% sure that this is a speed_limit30 (probab
 | 0					    | Speed limit (60km/h)							|
 
 
-For the second image, the model is uncertain that this is a Pedestrians (probability of 2.98733803e-16), It things it as Right-of-way at the next intersection. The top five soft max probabilities were
+* For the second image, the model is uncertain that this is a Pedestrians (probability of 2.98733803e-16), It things it as Right-of-way at the next intersection. The top five soft max probabilities were
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -152,7 +162,7 @@ For the second image, the model is uncertain that this is a Pedestrians (probabi
 | 2.09060446e-23		| Road narrows on the right		 				|
 | 2.44842503e-26		| Beware of ice/snow							|
 
-For the third image, the model is 100% sure that this is a Road work (probability of 1.0), and the image does contain a Road work. The top five soft max probabilities were
+* For the third image, the model is 100% sure that this is a Road work (probability of 1.0), and the image does contain a Road work. The top five soft max probabilities were
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -162,7 +172,7 @@ For the third image, the model is 100% sure that this is a Road work (probabilit
 | 3.95308676e-22		| Beware of ice/snow			 				|
 | 4.35396788e-24		| Pedestrians									|
 
-For the fourth image, the model is not able to predict it is a Speed limit (60km/h). The top five soft max probabilities were
+* For the fourth image, the model is not able to predict it is a Speed limit (60km/h). The top five soft max probabilities were
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -172,7 +182,7 @@ For the fourth image, the model is not able to predict it is a Speed limit (60km
 | 9.14461757e-13		| Speed limit (70km/h)			 				|
 | 1.10790053e-13		| Speed limit (80km/h)							|
 
-For the fifth image, the model is 100% sure that this is a no_entry (probability of 1.0), and the image does contain a no_entry sign. The top five soft max probabilities were
+* For the fifth image, the model is 100% sure that this is a no_entry (probability of 1.0), and the image does contain a no_entry sign. The top five soft max probabilities were
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
